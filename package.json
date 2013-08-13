@@ -1,0 +1,20 @@
+{
+	"name": "apis-addresource",
+	"description": "Add resource helper for node apis lib",
+	"version": "0.0.1",
+	"keywords": ["future", "web", "apis", "unionapi"],
+	"author": "Alexey Novikov <v@2dubs.com> (http://2dubs.com)",
+	"preferGlobal": false,
+	"private": false,
+	"dependencies": {
+		"apis": 	"~0.0.2"
+	},
+	"engines": {
+		"node": "~0.10.15"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:velocityzen/apis-addresource.git"
+	},
+	"main": "./index"
+}
