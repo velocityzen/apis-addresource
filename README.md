@@ -1,4 +1,4 @@
-apis-addresource
+apis-resource
 ================
 
 Add resource helper for [apis](https://github.com/dimsmol/apis) lib
@@ -7,7 +7,7 @@ Add resource helper for [apis](https://github.com/dimsmol/apis) lib
 ```js
 res.name = 'user',
 
-res.validators = {
+res.method = {
     get: {username: str},
     create: {
         username: str,
@@ -23,27 +23,26 @@ res.create = function(auth, data, cb) {};
 
 ## Usage
 ```js
-addResourse(
-    contract,   //contract handler 
-    auth,       //auth handler
-    resources,  //resource array [user, ['get', 'create']]
-    [defaultMethods]    //array of default methods 
-                        //['get', 'create', 'update', 'del']
+add(
+    contract,  //contract handler 
+    auth,      //auth handler
+    resource,  //resource array [user, ['get', 'create']]
+    apiBase    //api base path, ex. '/api'
 )
+
+addItems() // same as **add** but resources is an array of reresources
 ```
 
 **Example**
 
 ```js
-var addResources = require('apis-addresources');
+var addResources = require('apis-resources').addItems;
 ...
 
 Contract.prototype.unitInit = function (units) {
     var auth =  units.require('auth').handler;
     var user =  units.require('user');
 
-    addResources(this, auth, [
-        [user, 'all']
-    ]);
+    addResources(this, auth, [user, post], '/api');
 };
 ```

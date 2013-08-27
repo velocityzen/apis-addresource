@@ -14,7 +14,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:velocityzen/apis-addresource.git"
+		"url": "git@github.com:velocityzen/apis-resource.git"
 	},
 	"main": "./index"
 }

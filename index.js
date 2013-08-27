@@ -37,9 +37,9 @@ var add = function(contract, auth, resource, base) {
 	contract.add(res( base + '/' + resource.name, resourceMethods));
 };
 
-var addItems = function(contract, auth, resources) {
+var addItems = function(contract, auth, resources, base) {
 	for(var i in resources) {
-		add(contract, auth, resources[i]);
+		add(contract, auth, resources[i], base);
 	}
 };
 
