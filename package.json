@@ -1,5 +1,5 @@
 {
-	"name": "apis-addresource",
+	"name": "apis-resource",
 	"description": "Add resource helper for node apis lib",
 	"version": "0.0.1",
 	"keywords": ["future", "web", "apis", "unionapi"],
