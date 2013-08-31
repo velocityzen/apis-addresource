@@ -24,10 +24,11 @@ res.create = function(auth, data, cb) {};
 ## Usage
 ```js
 add(
-    contract,  //contract handler 
-    auth,      //auth handler
-    resource,  //resource array [user, ['get', 'create']]
-    apiBase    //api base path, ex. '/api'
+    contract,       //contract handler 
+    auth,           //auth handler
+    rolesHandler    //user roles handler
+    resource,       //resource array [user, ['get', 'create']]
+    apiBase         //api base path, ex. '/api'
 )
 
 addItems() // same as **add** but resources is an array of reresources
@@ -36,13 +37,13 @@ addItems() // same as **add** but resources is an array of reresources
 **Example**
 
 ```js
-var addResources = require('apis-resources').addItems;
+var addResources = require('apis-resource').addItems;
 ...
 
 Contract.prototype.unitInit = function (units) {
     var auth =  units.require('auth').handler;
     var user =  units.require('user');
 
-    addResources(this, auth, [user, post], '/api');
+    addResources(this, auth, null, [user, post], '/api/1');
 };
 ```

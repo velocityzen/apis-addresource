@@ -13,7 +13,7 @@ var createImpl = function (ctrl, method) {
 	};
 };
 
-var add = function(contract, auth, resource, base) {
+var add = function(contract, auth, authFunc, resource, base) {
 	var methods = resource.method,
 		resourceMethods = {};
 
@@ -24,9 +24,9 @@ var add = function(contract, auth, resource, base) {
 
 		if(!(method === 'create' && resource.name === 'user')) {
 			if(method === 'get') {
-				m.push(auth().opt); // get auth
+				m.push(auth(authFunc).opt); // get auth
 			} else {
-				m.push(auth()); // other methods auth
+				m.push(auth(authFunc)); // other methods auth
 			}
 		}
 		m.push(data(methods[method]));
@@ -37,9 +37,9 @@ var add = function(contract, auth, resource, base) {
 	contract.add(res( base + '/' + resource.name, resourceMethods));
 };
 
-var addItems = function(contract, auth, resources, base) {
+var addItems = function(contract, auth, authFunc, resources, base) {
 	for(var i in resources) {
-		add(contract, auth, resources[i], base);
+		add(contract, auth, authFunc, resources[i], base);
 	}
 };
 
