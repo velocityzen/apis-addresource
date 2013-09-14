@@ -7,7 +7,7 @@ Add resource helper for [apis](https://github.com/dimsmol/apis) lib
 ```js
 res.name = 'user',
 
-res.method = {
+res.methods = {
     get: {username: str},
     create: {
         username: str,

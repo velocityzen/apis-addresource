@@ -14,7 +14,7 @@ var createImpl = function (ctrl, method) {
 };
 
 var add = function(contract, auth, authFunc, resource, base) {
-	var methods = resource.method,
+	var methods = resource.methods,
 		resourceMethods = {};
 
 	base = base || '';
