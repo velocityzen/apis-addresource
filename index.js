@@ -14,7 +14,7 @@ var defaultImpl = function (ctrl, method) {
 };
 
 var add = function(contract, auth, authFunc, resource, base) {
-	var methods = resource.methods || ['get'],
+	var methods = resource.methods,
 		resourceMethods = {};
 
 	base = base || '';
