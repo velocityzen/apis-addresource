@@ -7,14 +7,14 @@ var data = handlers.data;
 var impl = handlers.impl;
 var ret = handlers.ret;
 
-var createImpl = function (ctrl, method) {
+var defaultImpl = function (ctrl, method) {
 	return function (ctx) {
 		ctrl[method](ctx.auth, ctx.data, ctx.cb);
 	};
 };
 
 var add = function(contract, auth, authFunc, resource, base) {
-	var methods = resource.methods,
+	var methods = resource.methods || ['get'],
 		resourceMethods = {};
 
 	base = base || '';
@@ -31,7 +31,12 @@ var add = function(contract, auth, authFunc, resource, base) {
 		}
 		m.push(data(methods[method]));
 		m.push(ret.any);
-		m.push(impl( createImpl(resource, method) ));
+
+		if(resource.implements) {
+			m.push(impl( resource.implements(method) ));
+		} else {
+			m.push(impl( defaultImpl(resource, method) ));
+		}
 	}
 
 	contract.add(res( base + '/' + resource.name, resourceMethods));
@@ -42,6 +47,7 @@ var addItems = function(contract, auth, authFunc, resources, base) {
 		add(contract, auth, authFunc, resources[i], base);
 	}
 };
+
 
 module.exports = {
 	add: add,
