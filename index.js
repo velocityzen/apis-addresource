@@ -29,7 +29,11 @@ var add = function(contract, auth, authFunc, resource, base) {
 				m.push(auth(authFunc)); // other methods auth
 			}
 		}
-		m.push(data(methods[method]));
+
+		if(methods[method] !== false) {
+			m.push(data(methods[method]));
+		}
+
 		m.push(ret.any);
 
 		if(resource.implements) {
