@@ -26,7 +26,7 @@ res.create = function(auth, data, cb) {};
 add(
     contract,       //contract handler 
     auth,           //auth handler
-    rolesHandler    //user roles handler
+    authFunction    //auth function
     resource,       //resource array [user, ['get', 'create']]
     apiBase         //api base path, ex. '/api'
 )
@@ -43,6 +43,7 @@ var addResources = require('apis-resource').addItems;
 Contract.prototype.unitInit = function (units) {
     var auth =  units.require('auth').handler;
     var user =  units.require('user');
+    var post =  units.require('post');
 
     addResources(this, auth, null, [user, post], '/api/1');
 };
