@@ -21,7 +21,7 @@ var add = function(contract, authOpts, resOpts) {
 		resourceMethods = {},
 
 		base = resOpts.base || '',
-		settings = resOpts.settings;
+		options = resOpts.options;
 
 	for(var method in methods) {
 		var m = resourceMethods[method] = [];
@@ -35,7 +35,7 @@ var add = function(contract, authOpts, resOpts) {
 		}
 
 		if(methods[method] !== false) {
-			m.push(data( methods[method](settings) ));
+			m.push(data( methods[method](options) ));
 		}
 
 		m.push(ret.any);
@@ -50,15 +50,7 @@ var add = function(contract, authOpts, resOpts) {
 	contract.add(res( base + '/' + resource.name, resourceMethods));
 };
 
-//var addItems = function(contract, auth, authFunc, resources, base) {
-var addItems = function(contract, authOpts, resesOpts) {
-	for(var i in resesOpts) {
-		add(contract, authOpts, resesOpts[i]);
-	}
-};
-
 
 module.exports = {
-	add: add,
-	addItems: addItems
+	add: add
 };

@@ -8,12 +8,16 @@ Add resource helper for [apis](https://github.com/dimsmol/apis) lib
 res.name = 'user',
 
 res.methods = {
-    get: {username: str},
-    create: {
-        username: str,
-        password: str,
-        email: email,
-        displayName: opt(str),
+    get: function(options) {
+        return {email: email}
+    },
+
+    create: function(options) {
+        return {
+            email: email,
+            password: str,
+            name: opt(str),
+        }
     }
 }
 
@@ -25,19 +29,22 @@ res.create = function(auth, data, cb) {};
 ```js
 add(
     contract,       //contract handler 
-    auth,           //auth handler
-    authFunction    //auth function
-    resource,       //resource array [user, ['get', 'create']]
-    apiBase         //api base path, ex. '/api'
+    {
+        handler     //auth handler
+        authFunc    //auth function
+    },           
+    {
+        base,       //api base path, ex. '/api'
+        api,        //resource array [user, ['get', 'create']]
+        options     //some options
+    }
 )
-
-addItems() // same as **add** but resources is an array of reresources
 ```
 
 **Example**
 
 ```js
-var addResources = require('apis-resource').addItems;
+var addResource = require('apis-resource').add;
 ...
 
 Contract.prototype.unitInit = function (units) {
@@ -45,6 +52,7 @@ Contract.prototype.unitInit = function (units) {
     var user =  units.require('user');
     var post =  units.require('post');
 
-    addResources(this, auth, null, [user, post], '/api/1');
+    add(this, {handler: auth}, {base: '/api/1', api: user});
+    add(this, {handler: auth}, {base: '/api/1', api: post});
 };
 ```
