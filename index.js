@@ -13,11 +13,15 @@ var defaultImpl = function (ctrl, method) {
 	};
 };
 
-var add = function(contract, auth, authFunc, resource, base) {
-	var methods = resource.methods,
-		resourceMethods = {};
+var add = function(contract, authOpts, resOpts) {
+	var auth = authOpts.handler,
+		authFunc = authOpts.authFunc,
+		resource = resOpts.api,
+		methods = resource.methods,
+		resourceMethods = {},
 
-	base = base || '';
+		base = resOpts.base || '',
+		settings = resOpts.settings;
 
 	for(var method in methods) {
 		var m = resourceMethods[method] = [];
@@ -31,7 +35,7 @@ var add = function(contract, auth, authFunc, resource, base) {
 		}
 
 		if(methods[method] !== false) {
-			m.push(data(methods[method]));
+			m.push(data( methods[method](settings) ));
 		}
 
 		m.push(ret.any);
@@ -46,9 +50,10 @@ var add = function(contract, auth, authFunc, resource, base) {
 	contract.add(res( base + '/' + resource.name, resourceMethods));
 };
 
-var addItems = function(contract, auth, authFunc, resources, base) {
-	for(var i in resources) {
-		add(contract, auth, authFunc, resources[i], base);
+//var addItems = function(contract, auth, authFunc, resources, base) {
+var addItems = function(contract, authOpts, resesOpts) {
+	for(var i in resesOpts) {
+		add(contract, authOpts, resesOpts[i]);
 	}
 };
 
