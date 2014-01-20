@@ -24,8 +24,6 @@ var add = function(contract, authOpts, resOpts) {
 		base = resOpts.base || '',
 		options = resOpts.options;
 
-	console.log(resOpts);
-
 	for(var method in request) {
 		var m = resourceMethods[method] = [];
 
