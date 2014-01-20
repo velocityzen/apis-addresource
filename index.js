@@ -16,17 +16,20 @@ var defaultImpl = function (ctrl, method) {
 var add = function(contract, authOpts, resOpts) {
 	var auth = authOpts.handler,
 		authFunc = authOpts.authFunc,
-		resource = resOpts.api,
-		methods = resource.methods,
+		api = resOpts.api,
+		request = resOpts.request,
+		response = resOpts.response || {},
 		resourceMethods = {},
 
 		base = resOpts.base || '',
 		options = resOpts.options;
 
-	for(var method in methods) {
+	console.log(resOpts);
+
+	for(var method in request) {
 		var m = resourceMethods[method] = [];
 
-		if(!(method === 'create' && resource.name === 'user')) {
+		if(!(method === 'create' && api.name === 'user')) {
 			if(method === 'get') {
 				m.push(auth(authFunc).opt); // get auth
 			} else {
@@ -34,20 +37,24 @@ var add = function(contract, authOpts, resOpts) {
 			}
 		}
 
-		if(methods[method] !== false) {
-			m.push(data( methods[method](options) ));
+		if(request[method] !== false) {
+			m.push(data( request[method](options) ));
 		}
 
-		m.push(ret.any);
-
-		if(resource.implements) {
-			m.push(impl( resource.implements(method) ));
+		if(response[method]) {
+			m.push(ret( response[method](options) ));
 		} else {
-			m.push(impl( defaultImpl(resource, method) ));
+			m.push(ret.any);
+		}
+
+		if(api.implements) {
+			m.push(impl( api.implements(method) ));
+		} else {
+			m.push(impl( defaultImpl(api, method) ));
 		}
 	}
 
-	contract.add(res( base + '/' + resource.name, resourceMethods));
+	contract.add(res( base + '/' + api.name, resourceMethods));
 };
 
 

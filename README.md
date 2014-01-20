@@ -6,8 +6,13 @@ Add resource helper for [apis](https://github.com/dimsmol/apis) lib
 ## Resource
 ```js
 res.name = 'user',
+res.get = function(auth, data, cb) {};
+res.create = function(auth, data, cb) {};
+```
 
-res.methods = {
+## request or response
+```js
+request = {
     get: function(options) {
         return {email: email}
     },
@@ -20,9 +25,6 @@ res.methods = {
         }
     }
 }
-
-res.get = function(auth, data, cb) {};
-res.create = function(auth, data, cb) {};
 ```
 
 ## Usage
@@ -35,8 +37,10 @@ add(
     },           
     {
         base,       //api base path, ex. '/api'
-        api,        //resource array [user, ['get', 'create']]
-        options     //some options
+        api,        //resource api unit
+        request,    //request validators
+        response,   //optional, response validators
+        options     //any options for validators
     }
 )
 ```
@@ -49,10 +53,13 @@ var addResource = require('apis-resource').add;
 
 Contract.prototype.unitInit = function (units) {
     var auth =  units.require('auth').handler;
-    var user =  units.require('user');
-    var post =  units.require('post');
+    var userApi =  units.require('user.api');
+    var userRequest =  units.require('user.request');
 
-    add(this, {handler: auth}, {base: '/api/1', api: user});
-    add(this, {handler: auth}, {base: '/api/1', api: post});
+    add(this, {handler: auth}, {
+        base: '/api/1', 
+        api: userApi, 
+        request: userRequest
+    });
 };
 ```
