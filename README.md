@@ -13,11 +13,11 @@ res.create = function(auth, data, cb) {};
 ## request or response
 ```js
 request = {
-    get: function(options) {
+    get: function() {
         return {email: email}
     },
 
-    create: function(options) {
+    create: function() {
         return {
             email: email,
             password: str,
@@ -39,8 +39,7 @@ add(
         base,       //api base path, ex. '/api'
         api,        //resource api unit
         request,    //request validators
-        response,   //optional, response validators
-        options     //any options for validators
+        response    //optional, response validators
     }
 )
 ```
