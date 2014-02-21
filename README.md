@@ -5,7 +5,7 @@ Add resource helper for [apis](https://github.com/dimsmol/apis) lib
 
 ## Resource
 ```js
-res.name = 'user',
+res.resource = 'user',
 res.get = function(auth, data, cb) {};
 res.create = function(auth, data, cb) {};
 ```
