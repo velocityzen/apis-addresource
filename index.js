@@ -1,6 +1,5 @@
 "use strict";
-
-var apis = require('apis');
+var apis = require("apis");
 var res = apis.resources.res;
 var handlers = apis.handlers;
 var data = handlers.data;
@@ -22,7 +21,7 @@ var add = function(contract, authOpts, resOpts) {
 		request = resOpts.request,
 		response = resOpts.response || {},
 		resourceMethods = {},
-		base = resOpts.base || '';
+		base = resOpts.base || "";
 
 	for(var i in methods) {
 		var method = methods[i];
@@ -32,15 +31,30 @@ var add = function(contract, authOpts, resOpts) {
 
 		var m = resourceMethods[method] = [];
 
-		if(!(method === 'create' && api.resource === 'user')) {
-			if(method === 'get') {
-				m.push(auth(authFunc).opt); // get auth
-			} else {
-				m.push(auth(authFunc)); // other methods auth
-			}
+		//defaults: get - opt, else - required
+		var methodAuth = request.auth ? request.auth[method] : "default";
+
+		switch(methodAuth) {
+			case "none":
+				break;
+
+			case "required":
+				m.push(auth(authFunc));
+				break;
+
+			case "optional":
+				m.push(auth(authFunc).opt);
+				break;
+
+			default:
+				if(method === "get") {
+					m.push(auth(authFunc).opt);
+				} else {
+					m.push(auth(authFunc));
+				}
 		}
 
-		if(request[method] !== false) {
+		if(request[method] !== "none") {
 			m.push(data( request[method]() ));
 		}
 
@@ -57,7 +71,7 @@ var add = function(contract, authOpts, resOpts) {
 		}
 	}
 
-	contract.add(res( base + '/' + api.resource, resourceMethods));
+	contract.add(res( base + "/" + api.resource, resourceMethods));
 };
 
 
